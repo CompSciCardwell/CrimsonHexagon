@@ -13,7 +13,6 @@ def singleBook( location ):
         cleantext = BeautifulSoup(item.get_content(), "lxml").text
         cleantext = re.sub(r'[^\w\s]', '', cleantext)
         cleantext = cleantext.lower()
-        #print(cleantext + "-")
         outputtext += cleantext
     print(outputtext)
     return outputtext
@@ -21,7 +20,6 @@ def singleBook( location ):
 
 def addToDict( dictionary, inputText ):
     for line in inputText.split():
-        #print(line + "-")
         for word in line.split(" "):
             if not word in dictionary:
                 dictionary[word] = 1
@@ -34,22 +32,12 @@ def addToDict( dictionary, inputText ):
 
     return dictionary
 
-set = {}
+def trainDirectory( pathname )
+    rootdir = Path(pathname)
+    set = {}
 
-rootdir = Path('/home/compscicardwell/SpiderOak Hive/Actual Documents/Git/CrimsonHexagon/Data Sets/Fantasy/Eric - Terry Pratchett.epub')
+    file_list = [f for f in rootdir.glob('**/*') if f.is_file() and f.suffix == '.epub']
 
-#singleBook(rootdir)
-
-addToDict(set, singleBook(rootdir))
-print(set)
-
-#file_list = [f for f in rootdir.glob('**/*') if f.is_file() and f.suffix == '.epub']
-
-#for f in file_list:
-    #print(f)
-    #book = epub.read_epub(f)
-    #for item in book.get_items_of_type(ebooklib.ITEM_DOCUMENT):
-        #print('NAME : ', item.get_name())
-        #cleantext = BeautifulSoup(item.get_content(), "lxml").text
-        #cleantext = re.sub(r'[^\w\s]', '', cleantext)
-        #print(cleantext.lower())
+    for f in file_list:
+        book = epub.read_epub(f)
+        addToDict(set, singleBook(f))
