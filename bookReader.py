@@ -13,14 +13,16 @@ def singleBook( location ):
         cleantext = BeautifulSoup(item.get_content(), "lxml").text
         cleantext = re.sub(r'[^\w\s]', '', cleantext)
         cleantext = cleantext.lower()
+        #print(cleantext + "-")
         outputtext += cleantext
-        print(cleantext)
+    print(outputtext)
     return outputtext
 
 
 def addToDict( dictionary, inputText ):
-    for line in inputText:
-        for word in line.split():
+    for line in inputText.split():
+        #print(line + "-")
+        for word in line.split(" "):
             if not word in dictionary:
                 dictionary[word] = 1
             else:
